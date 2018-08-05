@@ -8,7 +8,9 @@ api = ViaBTCAPI(EXCHANGE_URL)
 
 def get_btc_eth_price(url=BTC_ETH_PRICE_URL):
     resp = requests.get(url)
-    return float(resp.json()["BTC"])
+    price = float(resp.json()["BTC"])
+    mult = 1 + BTC_ETH_PRICE_ERROR_PRC / 100 * 2 * (random.random() - 0.5)
+    return price * mult
 
 def get_balance(api, user_id=BOT_USER_ID):
     return api.balance_query(user_id)["result"]
@@ -33,19 +35,18 @@ print("My balance: {0} {1}, {2} {3}".format(
 current_btc_eth_price = get_btc_eth_price()
 print("Current BTCETH price: {}".format(current_btc_eth_price))
 
-# action = "SELL" if random.random() > 0.5 else "BUY"
-action = "BUY"
+action = "BUY" if random.random() > BOT_BUY_PROB else "SELL"
 direction = action != "SELL"
 
-spread = current_btc_eth_price * SPREAD_PRC / 100
+spread = current_btc_eth_price * BOT_SPREAD_PRC / 100
 price_delta = (-1) ** direction * random.random() * spread
 price = current_btc_eth_price + price_delta 
 
 asset_name_to_trade = MONEY_NAME if action == "BUY" else STOCK_NAME
-amount = float(balances[asset_name_to_trade]["available"]) * TRADE_BALANCE_PRC
+amount = float(balances[asset_name_to_trade]["available"]) * BOT_TRADE_BALANCE_PRC / 100
 print("Going to {} {} {} for {} {}".format(action, amount, STOCK_NAME, price, MONEY_NAME))
 resp = put_order(api, action, amount, price)
 if resp["error"] is not None:
-    print(resp)
+    print(resp["error"]["message"])
 print()
 
