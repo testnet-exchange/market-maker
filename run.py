@@ -33,7 +33,8 @@ print("My balance: {0} {1}, {2} {3}".format(
 current_btc_eth_price = get_btc_eth_price()
 print("Current BTCETH price: {}".format(current_btc_eth_price))
 
-action = "SELL" if random.random() > 0.5 else "BUY"
+# action = "SELL" if random.random() > 0.5 else "BUY"
+action = "BUY"
 direction = action != "SELL"
 
 spread = current_btc_eth_price * SPREAD_PRC / 100
@@ -44,12 +45,7 @@ asset_name_to_trade = MONEY_NAME if action == "BUY" else STOCK_NAME
 amount = float(balances[asset_name_to_trade]["available"]) * TRADE_BALANCE_PRC
 print("Going to {} {} {} for {} {}".format(action, amount, STOCK_NAME, price, MONEY_NAME))
 resp = put_order(api, action, amount, price)
+if resp["error"] is not None:
+    print(resp)
 print()
-
-# print(resp["result"])
-
-# ob = get_orderbook(api)
-# print("Current orderbook")
-# print("BIDS", ob["bids"])
-# print("ASKS", ob["asks"])
 
