@@ -102,3 +102,10 @@ venv.bak/
 
 # mypy
 .mypy_cache/
+
+# API wrapper sources
+python-viabtc-api/**
+
+# ignore sylink
+ViaBTCAPI 
+python-viabtc-api/
