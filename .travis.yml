@@ -1,4 +1,7 @@
 language: python
+python: 
+- "3.6"
+script: echo 'ohuenno'
 deploy:
   provider: script
   script: ssh -i travis caffeinum@testnet.exchange "cd /home/caffeinum/bots/market-maker && sudo -s && git pull && bash deploy.sh"
