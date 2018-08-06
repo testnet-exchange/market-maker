@@ -28,8 +28,9 @@ def put_order(api, action, amount, price):
     )
 
 balances = get_balance(api)
-print("My balance: {0} {1}, {2} {3}".format(
-    balances[MONEY_NAME]["available"], MONEY_NAME, balances[STOCK_NAME]["available"], STOCK_NAME
+print("{0} balance: {1} {2}, {3} {4}".format(BOT_USER_ID, 
+    balances[MONEY_NAME]["available"], MONEY_NAME, 
+    balances[STOCK_NAME]["available"], STOCK_NAME
 ))
 
 current_btc_eth_price = get_btc_eth_price()
